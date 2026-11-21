@@ -13,7 +13,7 @@ Open `index.html` in a browser, or visit the GitHub Pages site. Works on iPad (b
 
 ## Host on GitHub Pages
 1. Push this folder to a GitHub repo.
-2. Repo → **Settings → Pages** → Source: *Deploy from a branch*, Branch: `main`, folder `/ (root)`.
+2. Repo → **Settings → Pages** → Source: **GitHub Actions**. The workflow in `.github/workflows/pages.yml` publishes every push to `main`.
 3. The site appears at `https://<username>.github.io/<repo>/` within a minute or two.
 
 No build step. It's plain HTML, CSS, and JavaScript.
