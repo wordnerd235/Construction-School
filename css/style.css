@@ -1,0 +1,71 @@
+/* VOICE: cheerful job-site toy, big friendly controls for a kid
+   IDEA: a working rock-crushing plant seen from the side, like a picture book cutaway
+   PICTURE: full-screen canvas: excavator arm, jaw crusher, conveyor, ball mill, dump truck
+   COLOUR and TYPE: construction yellow, steel greys, dirt brown, sky blue; chunky rounded sans
+   LAYOUT: game fills the screen; job card top-left, tools top-right, START bottom-left, GRAB bottom-right */
+:root{--y:#FFC21A;--ink:#2A2118;--paper:#FFF7E0;--red:#E2412B;--green:#23A04A;--orange:#FF8A3D}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+html,body{margin:0;height:100%;overflow:hidden;background:#B6834F;color:var(--ink);
+  font-family:"Arial Rounded MT Bold","Avenir Next Rounded","Nunito","Trebuchet MS",system-ui,sans-serif;
+  -webkit-user-select:none;user-select:none;touch-action:none;overscroll-behavior:none;position:fixed;inset:0}
+canvas{position:fixed;inset:0;display:block;touch-action:none}
+button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:none;-webkit-user-select:none;user-select:none}
+button:focus-visible{outline:3px solid #1d6fd8;outline-offset:3px}
+.card{position:fixed;top:calc(10px + env(safe-area-inset-top));left:calc(10px + env(safe-area-inset-left));width:min(270px,40vw);
+  background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:16px 12px 10px;box-shadow:0 4px 0 var(--ink);overflow:hidden}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:repeating-linear-gradient(135deg,var(--y) 0 10px,var(--ink) 10px 20px)}
+.jt{font-size:14px;font-weight:900;letter-spacing:.02em}
+.jx{font-size:13px;line-height:1.25;margin:3px 0 7px}
+.bar{height:14px;border:2px solid var(--ink);border-radius:8px;background:#fff;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(135deg,#F2B705 0 8px,#FFD34D 8px 16px);transition:width .3s}
+.jp{font-size:13px;margin-top:4px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+#badges{font-size:15px;letter-spacing:1px}
+.tr{position:fixed;top:calc(10px + env(safe-area-inset-top));right:calc(10px + env(safe-area-inset-right));display:flex;gap:8px}
+.pill{height:46px;min-width:46px;padding:0 12px;border-radius:999px;background:var(--paper);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);
+  font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:4px}
+button.pill:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+#gems.pulse{animation:pulse .5s}
+@keyframes pulse{50%{transform:scale(1.25)}}
+.round{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom));width:clamp(84px,12vmin,120px);height:clamp(84px,12vmin,120px);border-radius:50%;
+  border:4px solid var(--ink);box-shadow:0 6px 0 var(--ink);font-size:clamp(17px,2.6vmin,23px);font-weight:900;letter-spacing:.03em}
+.round:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+#grab{right:calc(14px + env(safe-area-inset-right));background:var(--y)}
+#grab.drop{background:var(--orange)}
+#grab.ready{animation:glow 0.9s infinite}
+@keyframes glow{50%{box-shadow:0 6px 0 var(--ink),0 0 0 10px rgba(255,255,255,.75)}}
+#power{left:calc(14px + env(safe-area-inset-left));background:var(--green);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+#power.on{background:var(--red)}
+#power.warn{background:#F59E0B}
+#power.hint{animation:glow 0.9s infinite}
+#mode{position:fixed;bottom:calc(30px + env(safe-area-inset-bottom));left:calc(clamp(84px,12vmin,120px) + 28px + env(safe-area-inset-left));font-size:15px}
+#levers{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(2,auto);gap:8px 18px}
+#levers[hidden]{display:none}
+.lg{display:flex;gap:6px;align-items:center;background:rgba(255,247,224,.85);border:3px solid var(--ink);border-radius:16px;padding:5px 7px}
+.lg span{font-size:12px;font-weight:900;width:44px;text-align:center}
+.lv{width:60px;height:56px;border-radius:12px;background:var(--y);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);font-size:24px;font-weight:900}
+.lv.on{transform:translateY(3px);box-shadow:0 1px 0 var(--ink);background:#FFD84D}
+#toast{position:fixed;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-140%);max-width:min(440px,46vw);
+  background:var(--ink);color:#fff;border-radius:14px;padding:10px 16px;font-size:16px;line-height:1.25;text-align:center;transition:transform .25s;pointer-events:none;z-index:5}
+#toast.show{transform:translate(-50%,0)}
+#toast.warn{background:var(--red)}
+#toast.good{background:var(--green)}
+#modal{position:fixed;inset:0;background:rgba(42,33,24,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10;touch-action:pan-y}
+#modal[hidden]{display:none}
+.sheet{background:var(--paper);border:4px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);max-width:560px;width:100%;max-height:88vh;overflow:auto;
+  padding:18px 20px;font-size:16px;line-height:1.4;-webkit-overflow-scrolling:touch;touch-action:pan-y;-webkit-user-select:text;user-select:text}
+.sheet h2{margin:0 0 8px;font-size:26px;line-height:1.1}
+.sheet h3{margin:16px 0 4px;font-size:18px}
+.sheet p,.sheet li{margin:4px 0}
+.sheet ol{padding-left:22px;margin:6px 0}
+.big{font-size:72px;text-align:center;line-height:1.1;margin:6px 0}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.btn{min-height:48px;padding:0 20px;border-radius:12px;border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);background:var(--y);font-size:18px;font-weight:900}
+.btn.alt{background:#fff;font-size:15px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.rocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;font-size:15px}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);vertical-align:-2px;margin-right:5px}
+#rot{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--paper);border:3px solid var(--ink);border-radius:14px;
+  padding:10px 14px;font-size:16px;display:flex;gap:10px;align-items:center;box-shadow:0 4px 0 var(--ink);z-index:4;width:max-content;max-width:90vw}
+#rot[hidden]{display:none}
+@media (max-width:600px){.jx{display:none}.card{width:46vw}}
+@media (prefers-reduced-motion:reduce){#grab.ready,#power.hint{animation:none}}

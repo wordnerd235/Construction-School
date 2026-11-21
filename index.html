@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Construction School</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="c" aria-label="Rock grinder construction site"></canvas>
+
+<div class="card" id="job">
+  <div class="jt" id="jt">Job 1</div>
+  <div class="jx" id="jx"></div>
+  <div class="bar"><i id="jb"></i></div>
+  <div class="jp"><span id="jv"></span><span id="badges"></span></div>
+</div>
+
+<div class="tr">
+  <div class="pill" id="gems" aria-label="Crystals found">💎 <b id="gc">0</b></div>
+  <button class="pill" id="truckBtn" aria-label="Call the dump truck">🚚</button>
+  <button class="pill" id="snd" aria-label="Sound on or off">🔊</button>
+  <button class="pill" id="helpBtn" aria-label="Help">?</button>
+</div>
+
+<button id="power" class="round hint" aria-label="Start or stop the machines">START</button>
+<button id="mode" class="pill" aria-label="Switch arm controls">✋ Touch</button>
+
+<div id="levers" hidden>
+  <div class="lg"><button class="lv" data-l="b-" aria-label="Boom left">↺</button><span>BOOM</span><button class="lv" data-l="b+" aria-label="Boom right">↻</button></div>
+  <div class="lg"><button class="lv" data-l="a-" aria-label="Arm left">↺</button><span>ARM</span><button class="lv" data-l="a+" aria-label="Arm right">↻</button></div>
+</div>
+
+<button id="grab" class="round" aria-label="Grab or drop">GRAB</button>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="rot" hidden>📱↻ Turn sideways for a bigger construction site! <button class="btn alt" id="rotOk">OK</button></div>
+<div id="modal" hidden><div class="sheet" id="sheet"></div></div>
+
+<script src="js/game.js"></script>
+</body>
+</html>
